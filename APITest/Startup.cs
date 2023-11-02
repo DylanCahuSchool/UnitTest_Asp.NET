@@ -10,6 +10,7 @@ using Serilog;
 using Serilog.Events;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore.SqlServer;
 
 
@@ -45,7 +46,10 @@ namespace APITest
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
             });
-
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+            });
 
         }
 
@@ -53,6 +57,7 @@ namespace APITest
         {
             if (env.IsDevelopment())
             {
+                app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
                 {
@@ -64,6 +69,16 @@ namespace APITest
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
+            app.UseCors(builder =>
+            {
+                builder
+                   .WithOrigins("http://localhost:4200", "https://localhost:4200")
+                   .SetIsOriginAllowedToAllowWildcardSubdomains()
+                   .AllowAnyHeader()
+                   .AllowCredentials()
+                   .WithMethods("GET", "PUT", "POST", "DELETE", "OPTIONS")
+                   .SetPreflightMaxAge(TimeSpan.FromSeconds(3600));
+            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

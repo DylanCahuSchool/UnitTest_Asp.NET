@@ -5,7 +5,7 @@ using Serilog.Sinks.SystemConsole;
 using Serilog.Events;
 using APITest;
 
-namespace VotreProjet
+namespace APITest
 {
     public class Program
     {
