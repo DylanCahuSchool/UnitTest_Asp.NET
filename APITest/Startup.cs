@@ -13,7 +13,6 @@ using Microsoft.Extensions.Configuration;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore.SqlServer;
 
-
 namespace APITest
 {
     public class Startup

@@ -17,7 +17,7 @@ namespace APITest.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<TestObject>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> getAllEstimats(int page = 1, int pagesize = 10)
+        public async Task<ActionResult<List<TestObject>>> getAllEstimats(int page = 1, int pagesize = 10)
         {
             List<TestObject> testObjects = await _context.TestObjects.ToListAsync();
 
